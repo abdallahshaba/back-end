@@ -11,24 +11,35 @@ function filterRequest($requestname)
     return  htmlspecialchars(strip_tags($_POST[$requestname]));
 }
 
-function getAllData($table, $where = null, $values = null)
+function getAllData($table, $where = null, $values = null, $json = true)
 {
     global $con;
     $data = array();
 
-    if($where==null){
+    if ($where == null) {
         $stmt = $con->prepare("SELECT  * FROM $table ");
-    }else{
+    } else {
         $stmt = $con->prepare("SELECT  * FROM $table WHERE   $where ");
     }
     $stmt->execute($values);
     $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
     $count  = $stmt->rowCount();
-    if ($count > 0) {
-        echo json_encode(array("status" => "success", "data" => $data));
-    } else {
-        echo json_encode(array("status" => "failure"));
+
+    if ($json == true) {
+        if ($count > 0) {
+            echo json_encode(array("status" => "success", "data" => $data));
+        } else {
+            echo json_encode(array("status" => "failure"));
+        }
+    } else{
+        if($json == false){
+            return $data;
+        }else{
+            return json_encode(array("status" => "failure"));
+        }
     }
+
+
     return $count;
 }
 
@@ -168,21 +179,21 @@ function checkAuthenticate()
 }
 
 
-function printFailure($message = "none") 
+function printFailure($message = "none")
 {
-    echo json_encode(array("status" => "failure" , "message" => $message));
+    echo json_encode(array("status" => "failure", "message" => $message));
 }
 
-function printSuccess($message = "none") 
+function printSuccess($message = "none")
 {
-    echo json_encode(array("status" => "success" , "message" => $message));
+    echo json_encode(array("status" => "success", "message" => $message));
 }
 
-function result ($count){
-    if($count > 0){
+function result($count)
+{
+    if ($count > 0) {
         printSuccess();
-    }
-    else{
+    } else {
         printFailure();
     }
 }
