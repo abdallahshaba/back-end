@@ -5,11 +5,15 @@ include "../connect.php";
 
 $allData = array();
 //دي المصفوفة اللي هزن فيها كل البيانات بتاعة الهوم 
-
-$categories = getAllData("categories" , null , null , false );
-
 $allData['status'] = 'success';
+
+//categories
+$categories = getAllData("categories" , null , null , false );
 $allData['categories'] = $categories ;
 
+
+//items
+$items = getAllData("itemsview" , "items_discount != 0" , null , false );
+$allData['items'] = $items ;
  echo json_encode($allData);
 ?>
