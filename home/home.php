@@ -13,7 +13,7 @@ $allData['categories'] = $categories ;
 
 
 //items
-$items = getAllData("itemsview" , "items_discount != 0" , null , false );
+$items = getAllData("items1view" , "items_discount != 0" , null , false );
 $allData['items'] = $items ;
  echo json_encode($allData);
 ?>
