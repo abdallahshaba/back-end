@@ -14,7 +14,7 @@ INNER JOIN favorite ON favorite.favorite_itemsid = items1view.items_id AND favor
 WHERE categories_id= $categoryId
 UNION ALL 
 SELECT * , 0 AS favorite FROM items1view
-WHERE categories_id= $categoryId AND items_id != (SELECT items1view.items_id FROM items1view
+WHERE categories_id= $categoryId AND items_id NOT IN (SELECT items1view.items_id FROM items1view
 INNER JOIN favorite ON favorite.favorite_itemsid = items1view.items_id AND favorite.favorite_userid=$userId)");
 
 
