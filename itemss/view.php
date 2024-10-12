@@ -6,16 +6,27 @@ $userId = filterRequest('userId');
 
 // $items = getAllData('items1view' , "categories_id=$id" , null);
 
-$categoryId = filterRequest("id");
+$categoryId = filterRequest("categoryId");
 
+$stmt = $con->prepare("SELECT itemview3.*, 1 AS favorite 
+FROM itemview3 
+INNER JOIN favorite 
+ON favorite.favorite_itemsid = itemview3.items_id 
+AND favorite.favorite_userid = $userId
+WHERE categories_id = $categoryId
 
-$stmt = $con->prepare("SELECT items1view.*, 1 AS favorite FROM items1view
-INNER JOIN favorite ON favorite.favorite_itemsid = items1view.items_id AND favorite.favorite_userid=$userId
-WHERE categories_id= $categoryId
 UNION ALL 
-SELECT * , 0 AS favorite FROM items1view
-WHERE categories_id= $categoryId AND items_id NOT IN (SELECT items1view.items_id FROM items1view
-INNER JOIN favorite ON favorite.favorite_itemsid = items1view.items_id AND favorite.favorite_userid=$userId)");
+
+SELECT itemview3.*, 0 AS favorite 
+FROM itemview3 
+WHERE categories_id = $categoryId
+AND items_id NOT IN (
+    SELECT itemview3.items_id 
+    FROM itemview3 
+    INNER JOIN favorite 
+    ON favorite.favorite_itemsid = itemview3.items_id 
+    AND favorite.favorite_userid = $userId
+);");
 
 
 $stmt -> execute();

@@ -11,7 +11,4 @@ $data = array(
 );
 
   insertData("favorite" , $data)
-
-  
-
 ?>
