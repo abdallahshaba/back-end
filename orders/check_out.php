@@ -62,8 +62,7 @@ include "../connect.php";
         "card_orders"=> $maxId
 
     ) ;
-
-    updateData("cart" , $data2 , "cart_users_id  = $orderUserId" );
+    updateData("cart" , $data2 , "cart_users_id  = $orderUserId AND card_orders = 0" );
  }
 
 

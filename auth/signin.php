@@ -1,29 +1,23 @@
-
 <?php
 
-include "../connect.php";
-
+include "../connect.php"; 
 
 $email = filterRequest("email");
 $password = filterRequest("password");
 
+$stmt = $con->prepare("SELECT * FROM users WHERE `email` = ?");
+$stmt->execute(array($email));
+$user = $stmt->fetch();
 
+if ($user) {
+    if (password_verify($password, $user['password'])) {
 
-// $stmt = $con->prepare("SELECT * FROM users WHERE `email` = ? AND `password` = ? ");
-// $stmt->execute(array($email, $password));
-// $count = $stmt->rowCount();
-// if ($count > 0) {
-//     printSuccess(
-//         "Email is Exist"
-//     );
-// } else {
-
-//    printFailure(
-//     "Email Is Not Found "
-//    );
-
-// }
-
-getData("users" , "`email` = ? AND `password` = ?" , array($email , $password));
+        printSuccess("Login successful");
+    } else {
+        printFailure("Invalid email or password");
+    }
+} else {
+    printFailure("Invalid email or password");
+}
 
 ?>

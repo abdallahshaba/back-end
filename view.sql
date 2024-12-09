@@ -37,6 +37,13 @@ SELECT SUM(items.items_price - items.items_price * items.offers / 100) AS itemsp
 INNER JOIN items ON items.items_id = cart.cart_items_id
 GROUP BY cart.cart_id , cart.cart_users_id , cart.card_orders
 
+  
+
+
+CREATE OR REPLACE VIEW ordersView AS
+SELECT orderss.* , addres.* FROM orderss
+LEFT JOIN addres ON addres.addres_id = orderss.orders_address
+
 
 
 

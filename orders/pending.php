@@ -5,7 +5,7 @@
  $userId = filterRequest("userId");
 
 
- getAllData("orderss" , "orders_userid = $userId");
+ getAllData("ordersview" , "orders_userid = $userId");
 
 
 ?>
